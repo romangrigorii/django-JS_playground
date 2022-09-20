@@ -1,0 +1,10 @@
+.grid-container {
+    display: inline-grid;
+    background-color: black;
+    padding: 10px;
+}
+
+.buttons {
+    height: 20cm;
+    width: 20cm;
+}

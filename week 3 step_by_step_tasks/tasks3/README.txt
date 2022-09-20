@@ -1,0 +1,1 @@
+In this file we add items to a list and then display them on the main page.

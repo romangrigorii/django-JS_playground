@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <title>Addition</title>
+
+    <style>
+        #app {
+            text-align: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        #problem {
+            font-size: 36px;
+        }
+    </style>
+</head>
+<body>
+    <div id = "app"></div>
+    <script type = "text/babel">
+
+        function App() {
+
+            const [num1, setNum1] = React.useState(1);
+            const [num2, setNum2] = React.useState(2);
+            const [state, setState] = React.useState({
+                num1:1,
+                num2:3,
+                response: "",
+                score: 0 // keep the score thus far
+            })
+
+            function updateResponse(event){
+                setState({
+                    ...state, // use all of previous state values
+                    response :event.target.value
+                }) 
+            }
+
+            function inputKeyPress(event){
+                if (event.key === "Enter"){
+                    const answer = parseInt(state.response);
+                    if (state.num1 + state.num2 === answer){
+                        document.querySelector('input').style.backgroundColor = 'green';
+                        setState({
+                            ...state,
+                            num1 : Math.ceil(Math.random() * 20),
+                            num2 : Math.ceil(Math.random() * 20),
+                            score: state.score + 1,
+                            response: ""
+                        });
+                    } else {
+                        document.querySelector('input').style.backgroundColor = 'red';
+                        setState({
+                            ...state,
+                            score: state.score - 1
+                        });
+                    }
+                }
+            }
+
+            return (
+                <div>
+                    <div id = 'problem'> {state.num1} + {state.num2} </div>
+                    <input onKeyPress={inputKeyPress} onChange = {updateResponse} value = {state.response}/>
+                    <div> Score: {state.score} </div>
+                </div>
+            );
+        }
+        ReactDOM.render(<App />, document.querySelector("#app"));
+    </script>
+</body>
+</html>

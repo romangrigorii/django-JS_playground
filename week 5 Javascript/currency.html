@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curreny Exhancge</title>
+    <script>
+        var myHeaders = new Headers();
+        myHeaders.append("apikey", "vlavO1yOXHz6mpNz7tZ0djYMWcUAdI5S");
+
+        var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        headers: myHeaders
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            document.querySelector('form').onsubmit = () =>{
+                fetch("https://api.apilayer.com/currency_data/change", requestOptions)
+                .then(response => {return response.json()})
+                .then(data => {
+                    const currency = document.querySelector('#currency_id').value.toUpperCase();
+                    const currencyname = document.querySelector('#currency_name').value;
+                    console.log(data);                 
+                    if (undefined != data.quotes[currency]){
+                        const rate = data.quotes[currency].start_rate;
+                        document.querySelector('#result').innerHTML = `1 USD is equal to ${rate} ${currencyname}`;
+                    } else {
+                        document.querySelector('#result').innerHTML = `Invalid`;
+                    }
+                })
+                .catch(error => {
+                    console.log('Error', error);
+                })
+                return false;
+            }
+        })
+
+    </script>
+</head>
+<body>
+    <form>
+        <input id = "currency_name" placeholder="Currency Name" type = "text">
+        <input id = "currency_id" placeholder="Currency ID" type = "text">
+        <input type = "submit" value = "Convert">
+    </form>
+    <div id = "result">
+
+    </div>
+</body>
+</html>

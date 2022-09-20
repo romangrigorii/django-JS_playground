@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <title>React</title>
+</head>
+<body>
+    <div id = "app"></div>
+    <script type = "text/babel">
+        function Printhi(props) {
+            return (
+                <h1>Hi {props.name} </h1>
+            );
+        }
+
+        function App() {
+            const x = 1;
+            const y = 1;
+
+            const [count, setCount] = React.useState(0);
+            
+            function updateCount(){
+                setCount(count+1);
+            }
+
+            return (
+                <div>
+                    <h1> Hello! 1 + 1 is equal to {1 + 1}</h1>
+
+                    <Printhi name = "Harry" />
+                    <Printhi name = "Ron"/>
+                    <Printhi name = "Hermoine" />
+
+                    <div><h1>{count}</h1></div> 
+                    <button onClick = {updateCount}> Count </button>
+                
+                </div>
+            );
+        }
+        ReactDOM.render(<App />, document.querySelector("#app"));
+    </script>
+</body>
+</html>

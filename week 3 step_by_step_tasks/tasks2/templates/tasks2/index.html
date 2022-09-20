@@ -1,0 +1,13 @@
+{% extends "tasks2/layout.html" %}
+
+{% block body %}
+
+    <h1 class = 'h1'> What do I need to do today?</h1>
+    <ul>
+        {% for tasks in taskstodo %}
+            <li> I need to 2 {{ tasks }} </li>
+        {% endfor %}
+        <a href="{% url 'tasks2:add' %}">Add tasks </a>
+    </ul>
+    
+{% endblock %}
