@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 from .models import *
+from django.db.models import *
 
 # Create your tests here.
 
@@ -41,7 +42,7 @@ class FlightTestCase(TestCase):
         f = flight.objects.get(origin = a2, destination = a2, duration = -100)
         self.assertFalse(f.is_valid_flight())
 
-    # The code below will test specific webpages 
+    # The code below will test specific webpages on the server
 
     def test_index(self):
         c = Client()
@@ -51,20 +52,32 @@ class FlightTestCase(TestCase):
 
     def test_valid_flight_page(self):
         a1 = airport.objects.get(code = "AAA")
-        f = flight.objects.get(origin = a1, destiantion = a1)
+        f = flight.objects.get(origin = a1, destination = a1)
         c = Client()
         response = c.get(f"/flights/{f.id}")
         self.assertEqual(response.status_code,200)
 
     def test_invalid_flight_page(self):
-        max_id = flight.objects.all().agregate(max("id"))["id_max"]
+        max_id = flight.objects.all().aggregate(Max("id"))["id__max"]
         c = Client()
         response = c.get(f"/flights/{max_id+1}")
         self.assertEqual(response.status_code,404)
 
     def test_flight_page_passengers(self):
-        f = flight.object.get(pk = 1)
+        f = flight.objects.get(pk = 1)
         p = passenger.objects.create(first = "Alice", last = "Adams")
+        f.passengers.add(p)
+
+        c = Client()
+        response = c.get(f"/flights/{f.id}")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["passengers"].count(),1)
+
+    # The code below will test browser functionality directly
+
+    
+    
+    
 
 
         
